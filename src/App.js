@@ -1,7 +1,8 @@
+import React,{useState} from 'react'
 import './App.css';
 import SearchDestinations from './Component/SearchDestinations';
+import {FaSearch} from "react-icons/fa"
 
-import Searchlist from './Component/Searchlist/Searchlist'
 
 const destinationsList = [
   {
@@ -71,6 +72,8 @@ const destinationsList = [
 ]
 
 function App() {
+  const[search, setSearch] = useState("")
+  console.log(search)
   return (
     <>
       <div className='bg-heading'>
@@ -78,12 +81,20 @@ function App() {
           </div>
 
           <div className='bg-heading'>
-          <Searchlist/>
+          <div className='bg'>
+          <div className='input-wrapper'>
+          <FaSearch id='search-icon'/>
+        <input type='search' placeholder='Please Enter the keyword' onChange={(e)=>setSearch(e.target.value)}/>
+   </div>
+    </div>
           </div>
 
 
     <div>
-      {destinationsList.map((destinationList)=>
+      {destinationsList.filter((destinationList)=>{
+        return search.toLocaleLowerCase() === ''? destinationList : destinationList.name.toLocaleLowerCase().includes(search)
+
+      }).map((destinationList)=>
        <SearchDestinations key={destinationList.id} name={destinationList.name} imgUrl={destinationList.imgUrl}/>
       )}
       
